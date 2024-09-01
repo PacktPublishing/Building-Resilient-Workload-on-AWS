@@ -13,7 +13,7 @@ REGION='eu-west-1'
 aws configure set region $REGION
 
 # Get the VPC ID
-VPCID=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=Chapter-6" --query 'Vpcs[].VpcId' --output text)
+VPCID=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=Chapter-6-bash" --query 'Vpcs[].VpcId' --output text)
 
 # Get the Internet Gateway ID
 IGW=$(aws ec2 describe-internet-gateways --filters "Name=attachment.vpc-id,Values=$VPCID" --query 'InternetGateways[].InternetGatewayId' --output text)
