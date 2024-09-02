@@ -17,7 +17,7 @@ aws configure set region $REGION
 
 # Creates the AWS VPC
 VPCID=$(aws ec2 create-vpc --cidr-block ${CIDR_BLOCK} | jq .Vpc.VpcId -r)
-aws ec2 create-tags --resources $VPCID --tags Key=Name,Value=Chapter-6
+aws ec2 create-tags --resources $VPCID --tags Key=Name,Value=Chapter-6-bash
 echo "Created VPC $VPCID"
 
 # Creates an internet gateway and attaches it to the VPC
@@ -57,7 +57,7 @@ echo "Using Amazon Linux latest AMI $AMI"
 INSTANCE=$(aws ec2 run-instances --image-id $AMI \
     --instance-type t3.nano \
     --subnet-id $SUBNET \
-    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Chapter-6}]' \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Chapter-6-bash}]' \
     --user-data file://user-data.sh \
     --query 'Instances[].InstanceId' \
     --output text)
