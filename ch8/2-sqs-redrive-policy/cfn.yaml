@@ -1,0 +1,13 @@
+Resources:
+  MainQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: my-main-queue
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
+        maxReceiveCount: 3
+
+  DeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: my-dead-letter-queue
