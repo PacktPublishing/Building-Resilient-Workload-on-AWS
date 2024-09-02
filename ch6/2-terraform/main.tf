@@ -56,6 +56,14 @@ resource "aws_security_group" "allow_http" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+    self            = true # Allow traffic to instances in the same security group
+  }
 }
 
 # EC2 Instance
@@ -84,6 +92,6 @@ resource "aws_instance" "web" {
 }
 
 output "public_ip" {
-  value       = aws_instance.web.public_ip
-  description = "Public IP of the EC2 instance"
+  value       = "http://${aws_instance.web.public_ip}"
+  description = "Open in your browser in a few minutes!"
 }
