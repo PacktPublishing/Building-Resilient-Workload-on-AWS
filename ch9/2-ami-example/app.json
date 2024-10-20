@@ -1,0 +1,45 @@
+{
+  "variables": {
+    "aws_region": "us-east-1"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "amzn2-ami-hvm-2.0*",
+          "root-device-type": "ebs"
+        },
+        "owners": [
+          "amazon"
+        ],
+        "most_recent": true
+      },
+      "region": "{{user `aws_region`}}",
+      "instance_type": "t2.micro",
+      "ssh_username": "ec2-user",
+      "ami_name": "resilience-ch9-{{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo yum update -y",
+        "sudo yum install -y golang"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "../1-example-app/main.go",
+      "destination": "/home/ec2-user/main.go"
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "go run /home/ec2-user/main.go &"
+      ]
+    }
+  ]
+}
